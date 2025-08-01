@@ -1,3 +1,5 @@
+import { cache } from "react";
+
 const BASE_URL = 'https://swapi.py4e.com/api';
 
 export type SortDirection = 'asc' | 'desc';
@@ -5,9 +7,10 @@ export type Endpoint = 'people' | 'planets' | 'starships' | 'films';
 export type SearchTerm = string | string[];
 
 // Generic fetch function with error handling
+const cachedFetch = cache(fetch);
 async function fetchFromAPI(url: string) {
   try {
-    const response = await fetch(url);
+    const response = await cachedFetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
