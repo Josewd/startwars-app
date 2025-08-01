@@ -1,0 +1,36 @@
+// Exemplo de SCSS para testar suporte
+$primary-color: #60A5FA;
+$background-color: rgba(255, 255, 255, 0.1);
+$border-radius: 8px;
+
+.auto-focus-input-container {
+  display: flex;
+  align-items: center;
+  background-color: $background-color;
+  border-radius: $border-radius;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  &:focus-within {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+  }
+
+  input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    margin-left: 8px;
+    flex: 1;
+
+    &::placeholder {
+      color: #9CA3AF;
+    }
+  }
+}     
