@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { peopleAPI, planetsAPI, starshipsAPI, filmsAPI, resolveRelatedResources, extractIdFromUrl } from '../service/api';
+import { peopleAPI, planetsAPI, starshipsAPI, filmsAPI, resolveRelatedResources, extractIdFromUrl, fetchByUrl } from '../service/api';
 import { SortDirection } from '../service/api';
 
 // Generic hook for fetching and managing list data
@@ -11,6 +11,23 @@ function  useListData(apiService: any, searchFields: string | string[] = '') {
   const [sortField, setSortField] = useState('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [nextUrl, setNextUrl] = useState<string | null>(null);
+
+  const fetchNextPage = useCallback(async () => {
+    if (nextUrl) {
+      try {
+        setLoading(true);
+        setError(null);
+        const nextData = await fetchByUrl(nextUrl);
+        setData([...data, ...nextData.results]);
+        setNextUrl(nextData.next);
+        setLoading(false);
+      } catch (err: any) {
+        setLoading(false);
+        setError(err.message);
+        console.error('Error fetching next page:', err);
+      }
+    }
+  }, [nextUrl, data]);
 
   // Fetch data
   const fetchData = useCallback(async () => {
@@ -75,7 +92,8 @@ function  useListData(apiService: any, searchFields: string | string[] = '') {
     sortDirection,
     handleSort,
     refetch: fetchData,
-    nextUrl
+    nextUrl,
+    fetchNextPage
   };
 }
 
@@ -156,7 +174,7 @@ export function usePeople() {
 }
 
 export function usePlanets() {
-  return useListData(planetsAPI, 'name');
+  return useListData(planetsAPI);
 }
 
 export function useStarships() {
