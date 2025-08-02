@@ -22,8 +22,6 @@ export default function SpecieDetails() {
     loading,
   } = useSpeciesDetails(id || '');
 
-  console.log({item});
-
   if (loading) {
     return (
       <Box display="flex" alignItems="center" justifyContent="center" py={8}>
@@ -65,15 +63,15 @@ export default function SpecieDetails() {
   }
 
   const rows = [
-    { value: 'classification'},
-    { value: 'designation'},
-    { value: 'average_height', render: (value: string) => (value && value !== 'n/a') ? `${value} cm` : 'N/A' },
-    { value: 'average_lifespan', render: (value: string) => value ? `${value} years` : 'N/A' },
-    { value: 'language'},
-    { value: 'homeworld', render: (value: string) => value ? `${value}` : 'N/A' },
-    { value: 'eye_colors'},
-    { value: 'hair_colors'},
-    { value: 'skin_colors'},
+    { key: 'classification'},
+    { key: 'designation'},
+    { key: 'average_height', render: (value: string) => (value && value !== 'n/a') ? `${value} cm` : 'N/A' },
+    { key: 'average_lifespan', render: (value: string) => value ? `${value} years` : 'N/A' },
+    { key: 'language'},
+    { key: 'homeworld', render: (value: string) => value ? `${value}` : 'N/A' },
+    { key: 'eye_colors'},
+    { key: 'hair_colors'},
+    { key: 'skin_colors'},
   ];
 
   return (

@@ -60,16 +60,16 @@ export default function VehicleDetails({ id }: { id: string }) {
   }
 
   const rows = [
-      { value: 'model'},
-      { value: 'manufacturer'},
-      { value: 'cost_in_credits'},
-      { value: 'length'},
-      { value: 'max_atmosphering_speed'},
-      { value: 'crew'},
-      { value: 'passengers'},
-      { value: 'cargo_capacity'},
-      { value: 'consumables'},
-      { value: 'vehicle_class'},
+      { key: 'model'},
+      { key: 'manufacturer'},
+      { key: 'cost_in_credits'},
+      { key: 'length'},
+      { key: 'max_atmosphering_speed'},
+      { key: 'crew'},
+      { key: 'passengers'},
+      { key: 'cargo_capacity'},
+      { key: 'consumables'},
+      { key: 'vehicle_class'},
   ];
 
   return (

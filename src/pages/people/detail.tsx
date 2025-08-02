@@ -60,13 +60,13 @@ export default function PersonDetails({ id }: { id: string }) {
   }
 
   const rows = [
-    { value: 'height', render: (value: string) => `${value} cm` },
-    { value: 'mass', render: (value: string) => `${value} kg` },
-    { value: 'hair_color'},
-    { value: 'skin_color'},
-    { value: 'eye_color'},
-    { value: 'birth_year', render: (value: string) => `${value} years` },
-    { value: 'gender'},
+    { key: 'height', render: (value: string) => `${value} cm` },
+    { key: 'mass', render: (value: string) => `${value} kg` },
+    { key: 'hair_color'},
+    { key: 'skin_color'},
+    { key: 'eye_color'},
+    { key: 'birth_year', render: (value: string) => `${value} years` },
+    { key: 'gender'},
   ];
 
   return (

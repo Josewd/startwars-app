@@ -64,11 +64,11 @@ export default function FilmDetails() {
   }
 
   const rows = [
-    { value: 'title' },
-    { value: 'episode_id' },
-    { value: 'release_date' },
-    { value: 'director' },
-    { value: 'producer' },
+    { key: 'title' },
+    { key: 'episode_id' },
+    { key: 'release_date' },
+    { key: 'director' },
+    { key: 'producer' },
   ];
 
   return (

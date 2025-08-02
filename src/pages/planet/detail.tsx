@@ -61,14 +61,14 @@ export default function PlanetDetails({ id }: { id: string }) {
   }
 
   const rows = [
-    { value: 'climate'},
-    { value: 'terrain'},
-    { value: 'population', render: (value: string) => dataUtils.formatPopulation(value) },
-    { value: 'diameter', render: (value: string) => dataUtils.formatDiameter(value) },
-    { value: 'gravity'},
-    { value: 'orbital_period', render: (value: string) => dataUtils.formatPeriod(value, 'days') },
-    { value: 'rotation_period', render: (value: string) => dataUtils.formatPeriod(value, 'hours') },
-    { value: 'surface_water', render: (value: string) => value ? `${value}%` : 'N/A'}
+    { key: 'climate'},
+    { key: 'terrain'},
+    { key: 'population', render: (value: string) => dataUtils.formatPopulation(value) },
+    { key: 'diameter', render: (value: string) => dataUtils.formatDiameter(value) },
+    { key: 'gravity'},
+    { key: 'orbital_period', render: (value: string) => dataUtils.formatPeriod(value, 'days') },
+    { key: 'rotation_period', render: (value: string) => dataUtils.formatPeriod(value, 'hours') },
+    { key: 'surface_water', render: (value: string) => value ? `${value}%` : 'N/A'}
   ];
 
   return (

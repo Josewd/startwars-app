@@ -60,18 +60,18 @@ export default function StarshipDetails({ id }: { id: string }) {
   }
 
   const rows = [
-    { value: 'model'},
-    { value: 'manufacturer'},
-    { value: 'cost_in_credits'},
-    { value: 'length'},
-    { value: 'max_atmosphering_speed'},
-    { value: 'crew'},
-    { value: 'passengers'},
-    { value: 'cargo_capacity'},
-    { value: 'consumables'},
-    { value: 'hyperdrive_rating'},
-    { value: 'MGLT'},
-    { value: 'starship_class'},
+    { key: 'model'},
+    { key: 'manufacturer'},
+    { key: 'cost_in_credits'},
+    { key: 'length'},
+    { key: 'max_atmosphering_speed'},
+    { key: 'crew'},
+    { key: 'passengers'},
+    { key: 'cargo_capacity'},
+    { key: 'consumables'},
+    { key: 'hyperdrive_rating'},
+    { key: 'MGLT'},
+    { key: 'starship_class'},
   ];
 
   return (
