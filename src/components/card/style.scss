@@ -1,0 +1,27 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  justify-content: space-between;
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+  padding: 16px;
+  margin: 16px;
+  color: #000;
+  box-shadow: 0 0 15px 0 rgba(251, 251, 251, 0.5);
+  transition: all 0.3s ease;
+  background-color: #f4f4eb;
+  cursor: pointer;
+  
+  .card-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .card-info {
+    color: #000;
+    font-size: 16px;
+    
+  }
+} 
+

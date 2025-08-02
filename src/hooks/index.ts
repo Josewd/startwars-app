@@ -1,14 +1,21 @@
 import { useState, useEffect, useCallback } from 'react';
 import { peopleAPI, planetsAPI, starshipsAPI, filmsAPI, resolveRelatedResources, extractIdFromUrl, fetchByUrl } from '../service/api';
-import { SortDirection } from '../service/api';
+import { SortDirection, SearchTerm } from '../service/api';
+import { 
+  Planet, 
+  PlanetWithRelatedData, 
+  Person, 
+  Film,
+  Starship
+} from '../types';
 
 // Generic hook for fetching and managing list data
-function  useListData(apiService: any, searchFields: string | string[] = '') {
-  const [data, setData] = useState<any[]>([]);
+function useListData<T = any>(apiService: any, searchFields: SearchTerm = '') {
+  const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string | string[]>(searchFields);
-  const [sortField, setSortField] = useState('name');
+  const [searchTerm, setSearchTerm] = useState<SearchTerm>(searchFields);
+  const [sortField, setSortField] = useState<string>('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [nextUrl, setNextUrl] = useState<string | null>(null);
 
@@ -52,8 +59,8 @@ function  useListData(apiService: any, searchFields: string | string[] = '') {
 
   // Sort data
   const sortedData = [...data].sort((a, b) => {
-    let aVal: any = a[sortField];
-    let bVal: any = b[sortField];
+    let aVal: any = (a as any)[sortField];
+    let bVal: any = (b as any)[sortField];
     
     // Handle numeric values
     if (!isNaN(aVal) && !isNaN(bVal)) {
@@ -98,11 +105,11 @@ function  useListData(apiService: any, searchFields: string | string[] = '') {
 }
 
 // Hook for fetching individual item details
-function useItemDetails(apiService: any, id: string) {
-  const [item, setItem] = useState<any>(null);
+function useItemDetails<T = any>(apiService: any, id: string) {
+  const [item, setItem] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [relatedData, setRelatedData] = useState({});
+  const [relatedData, setRelatedData] = useState<any>({});
 
   useEffect(() => {
     if (!id) return;
@@ -153,6 +160,24 @@ function useItemDetails(apiService: any, id: string) {
           }
         }
 
+        // Fetch vehicles for people
+        if (result.vehicles && result.vehicles.length > 0) {
+          try {
+            related.vehicles = await resolveRelatedResources(result.vehicles);
+          } catch (err: any) {
+            console.error('Error fetching vehicles:', err);
+          }
+        }
+
+        // Fetch species for people
+        if (result.species && result.species.length > 0) {
+          try {
+            related.species = await resolveRelatedResources(result.species);
+          } catch (err: any) {
+            console.error('Error fetching species:', err);
+          }
+        }
+
         setRelatedData(related);
       } catch (err: any) {
         setError(err.message);
@@ -170,32 +195,36 @@ function useItemDetails(apiService: any, id: string) {
 
 // Specific hooks for each entity type
 export function usePeople() {
-  return useListData(peopleAPI, ['name']);
+  return useListData<Person>(peopleAPI);
 }
 
 export function usePlanets() {
-  return useListData(planetsAPI);
+  return useListData<Planet>(planetsAPI);
 }
 
 export function useStarships() {
-  return useListData(starshipsAPI, ['name', 'model']);
+  return useListData<Starship>(starshipsAPI);
 }
 
 export function usePersonDetails(id: string) {
-  return useItemDetails(peopleAPI, id);
+  return useItemDetails<Person>(peopleAPI, id);
 }
 
 export function usePlanetDetails(id: string) {
-  return useItemDetails(planetsAPI, id);
+  return useItemDetails<PlanetWithRelatedData>(planetsAPI, id);
+}
+
+export function useFilmDetails(id: string) {
+  return useItemDetails<Film>(filmsAPI, id);
 }
 
 export function useStarshipDetails(id: string) {
-  return useItemDetails(starshipsAPI, id);
+  return useItemDetails<Starship>(starshipsAPI, id);
 }
 
 // Hook for films data
 export function useFilms() {
-  const [films, setFilms] = useState<any[]>([]);
+  const [films, setFilms] = useState<Film[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

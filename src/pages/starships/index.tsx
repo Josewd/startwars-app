@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useTransition } from 'react';
-import { usePlanets } from "../../hooks";
+import { usePeople, usePlanets, useStarships } from "../../hooks";
 import { 
   CircularProgress, 
   Button, 
@@ -15,16 +15,15 @@ import {
   KeyboardArrowDown as KeyboardArrowDownIcon,
   Public as PublicIcon,
 } from '@mui/icons-material';
-import Navigation from "../../components/nav";
-import PlanetCard from "../../components/planetCard";
 import AutoFocusInput from "../../components/autoFocusInput";
 import InfinityScroll from "../../components/infinityScroll";
 import { useParams } from "react-router";
 import Header from "../../components/header";
+import StarshipCard from "../../components/card";
 
-export default function PlanetsPage() {
+export default function StarshipsPage() {
   const { 
-    data: planets, 
+    data: starships, 
     loading, 
     error, 
     searchTerm, 
@@ -35,7 +34,7 @@ export default function PlanetsPage() {
     fetchNextPage,
     nextUrl,
     refetch,
-  } = usePlanets();
+  } = useStarships();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [isPending, startTransition] = useTransition();
@@ -136,16 +135,30 @@ export default function PlanetsPage() {
             handleSearch={handleSearch}
             placeholder="Search planets..."
            />
-           <Navigation
-            handleSort={handleSort}
-            sortField={sortField}
-            sortDirection={sortDirection}
-            links={[{ name: 'name', onClick: () => handleSort('name') }, { name: 'population', onClick: () => handleSort('population') }]}
-           /> 
+            
+            <Box display="flex" alignItems="center" gap={1}>
+              <Typography variant="body2" sx={{ color: '#9CA3AF' }}>Sort by:</Typography>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => handleSort('name')}
+                sx={{
+                  color: 'white',
+                  borderColor: 'rgba(255,255,255,0.2)',
+                  '&:hover': {
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    borderColor: 'rgba(255,255,255,0.3)'
+                  }
+                }}
+                endIcon={getSortIcon('name')}
+              >
+                Name
+              </Button>
+            </Box>
           </Box>
           
           <Typography variant="body2" sx={{ color: '#9CA3AF' }}>
-            Showing {planets.length} planets
+            Showing {starships.length} starships
           </Typography>
         </CardContent>
       </Card>
@@ -156,13 +169,13 @@ export default function PlanetsPage() {
         onLoadMore={fetchNextPage}
         loading={loading}
       >
-        {planets.map((planet) => {
-          return <PlanetCard key={planet.name} {...planet} />;
+        {starships.map((starship) => {
+          return <StarshipCard key={starship.name} name={starship.name} info={starship?.model || ''} url={starship.url || ''} path="/starship" />;
         })}
       </InfinityScroll>
 
       {/* Empty State */}
-      {planets.length === 0 && searchTerm && (
+      {starships.length === 0 && searchTerm && (
         <Box textAlign="center" py={8}>
           <PublicIcon sx={{ fontSize: 84, color: '#6B7280', mb: 2 }} />
           <Typography variant="h6" sx={{ fontWeight: 'semibold', color: '#D1D5DB', mb: 1 }}>

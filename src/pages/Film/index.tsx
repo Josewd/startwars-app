@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usePlanetDetails } from "../../hooks";
+import { useFilmDetails } from "../../hooks";
 import { 
   CircularProgress, 
   Button, 
@@ -9,18 +9,19 @@ import {
 import { Error as ErrorIcon } from '@mui/icons-material';
 import { useParams } from "react-router";
 import Header from "../../components/header";
-import { dataUtils } from "../../utils";
 import BulletLinkArray from "../../components/bulletLink";
 import BaseDetailPage from "../../components/baseDetailPage";
 
-export default function PlanetDetails() {
+export default function FilmDetails() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const { 
     item,
-    relatedData,
     error,
-  } = usePlanetDetails(id || '');
+    relatedData,
+    } = useFilmDetails(id || '');
+
+  console.log(relatedData, item);
 
   if (isLoading) {
     return (
@@ -28,7 +29,7 @@ export default function PlanetDetails() {
         <Box textAlign="center">
           <CircularProgress sx={{ color: '#FACC15', mb: 2 }} />
           <Typography variant="body1" sx={{ color: '#D1D5DB' }}>
-            Loading planets from a galaxy far, far away...
+            Loading film details
           </Typography>
         </Box>
       </Box>
@@ -41,7 +42,7 @@ export default function PlanetDetails() {
         <Box textAlign="center">
           <ErrorIcon sx={{ fontSize: 32, color: '#F87171', mb: 2 }} />
           <Typography variant="body1" sx={{ color: '#D1D5DB', mb: 3 }}>
-            Error loading planet details: {error}
+            Error loading film details: {error}
           </Typography>
           <Button 
             onClick={() => window.location.reload()} 
@@ -63,31 +64,31 @@ export default function PlanetDetails() {
   }
 
   const rows = [
-    { value: 'climate'},
-    { value: 'terrain'},
-    { value: 'population', render: (value: string) => dataUtils.formatPopulation(value) },
-    { value: 'diameter', render: (value: string) => dataUtils.formatDiameter(value) },
-    { value: 'gravity'},
-    { value: 'orbital_period', render: (value: string) => dataUtils.formatPeriod(value, 'days') },
-    { value: 'rotation_period', render: (value: string) => dataUtils.formatPeriod(value, 'hours') },
-    { value: 'surface_water', render: (value: string) => value ? `${value}%` : 'N/A'}
+    { value: 'title' },
+    { value: 'episode_id' },
+    { value: 'release_date' },
+    { value: 'director' },
+    { value: 'producer' },
   ];
 
   return (
     <div className="space-y-6 universe">
       <Header
-        title={item?.name || 'Planet Details'}
-        description={`Explore the ${item?.name} planet in the Star Wars galaxy.`}
+        title={item?.title || 'Film Details'}
+        description={item?.opening_crawl || ''}
         backButton={true}
-        backButtonLink="/"
+        backButtonLink="/people"
       />
       <BaseDetailPage
         item={item}
         rows={rows}
         bulletLinks={
           <>
-            <BulletLinkArray data={relatedData?.residents} title="Residents" link={`/person`} />
-            <BulletLinkArray data={relatedData?.films} title="Films" link={`/film`} />
+            <BulletLinkArray data={relatedData?.characters} title="Characters" link={`/person`} />
+            <BulletLinkArray data={relatedData?.planets} title="Planets" link={`/planet`} />
+            <BulletLinkArray data={relatedData?.starships} title="Starships" link={`/starship`} />
+            <BulletLinkArray data={relatedData?.vehicles} title="Vehicles" link={`/vehicle`} />
+            <BulletLinkArray data={relatedData?.species} title="Species" link={`/species`} />
           </>
         }
       />

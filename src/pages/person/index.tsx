@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usePlanetDetails } from "../../hooks";
+import { usePersonDetails } from "../../hooks";
 import { 
   CircularProgress, 
   Button, 
@@ -9,18 +9,19 @@ import {
 import { Error as ErrorIcon } from '@mui/icons-material';
 import { useParams } from "react-router";
 import Header from "../../components/header";
-import { dataUtils } from "../../utils";
 import BulletLinkArray from "../../components/bulletLink";
 import BaseDetailPage from "../../components/baseDetailPage";
 
-export default function PlanetDetails() {
+export default function PersonDetails() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const { 
     item,
     relatedData,
     error,
-  } = usePlanetDetails(id || '');
+  } = usePersonDetails(id || '');
+
+  console.log(relatedData, item);
 
   if (isLoading) {
     return (
@@ -28,7 +29,7 @@ export default function PlanetDetails() {
         <Box textAlign="center">
           <CircularProgress sx={{ color: '#FACC15', mb: 2 }} />
           <Typography variant="body1" sx={{ color: '#D1D5DB' }}>
-            Loading planets from a galaxy far, far away...
+            Loading person details from {relatedData?.homeworld?.name}
           </Typography>
         </Box>
       </Box>
@@ -63,34 +64,36 @@ export default function PlanetDetails() {
   }
 
   const rows = [
-    { value: 'climate'},
-    { value: 'terrain'},
-    { value: 'population', render: (value: string) => dataUtils.formatPopulation(value) },
-    { value: 'diameter', render: (value: string) => dataUtils.formatDiameter(value) },
-    { value: 'gravity'},
-    { value: 'orbital_period', render: (value: string) => dataUtils.formatPeriod(value, 'days') },
-    { value: 'rotation_period', render: (value: string) => dataUtils.formatPeriod(value, 'hours') },
-    { value: 'surface_water', render: (value: string) => value ? `${value}%` : 'N/A'}
+    { value: 'height', render: (value: string) => `${value} cm` },
+    { value: 'mass', render: (value: string) => `${value} kg` },
+    { value: 'hair_color'},
+    { value: 'skin_color'},
+    { value: 'eye_color'},
+    { value: 'birth_year', render: (value: string) => `${value} years` },
+    { value: 'gender'},
   ];
 
   return (
     <div className="space-y-6 universe">
       <Header
-        title={item?.name || 'Planet Details'}
-        description={`Explore the ${item?.name} planet in the Star Wars galaxy.`}
+        title={item?.name || 'Person Details'}
+        description={`Get to know ${item?.name} From ${relatedData?.homeworld?.name}`}
         backButton={true}
-        backButtonLink="/"
+        backButtonLink="/people"
       />
       <BaseDetailPage
         item={item}
         rows={rows}
         bulletLinks={
           <>
-            <BulletLinkArray data={relatedData?.residents} title="Residents" link={`/person`} />
+            <BulletLinkArray data={[{ title: relatedData?.homeworld?.name || '', url: relatedData?.homeworld?.url || '' }]} title="Homeworld" link={`/planet`} />
             <BulletLinkArray data={relatedData?.films} title="Films" link={`/film`} />
+            <BulletLinkArray data={relatedData?.species} title="Species" link={`/species`} />
+            <BulletLinkArray data={relatedData?.vehicles} title="Vehicles" link={`/vehicle`} />
+            <BulletLinkArray data={relatedData?.starships} title="Starships" link={`/starship`} />
           </>
         }
-      />
+      />  
     </div>
   );
 }

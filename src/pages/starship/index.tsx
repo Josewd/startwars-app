@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usePlanetDetails } from "../../hooks";
+import { useStarshipDetails } from "../../hooks";
 import { 
   CircularProgress, 
   Button, 
@@ -9,18 +9,19 @@ import {
 import { Error as ErrorIcon } from '@mui/icons-material';
 import { useParams } from "react-router";
 import Header from "../../components/header";
-import { dataUtils } from "../../utils";
 import BulletLinkArray from "../../components/bulletLink";
-import BaseDetailPage from "../../components/baseDetailPage";
+import BaseDetailPage from '../../components/baseDetailPage';
 
-export default function PlanetDetails() {
+export default function StarshipDetails() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const { 
     item,
     relatedData,
     error,
-  } = usePlanetDetails(id || '');
+  } = useStarshipDetails(id || '');
+
+  console.log(relatedData, item);
 
   if (isLoading) {
     return (
@@ -28,7 +29,7 @@ export default function PlanetDetails() {
         <Box textAlign="center">
           <CircularProgress sx={{ color: '#FACC15', mb: 2 }} />
           <Typography variant="body1" sx={{ color: '#D1D5DB' }}>
-            Loading planets from a galaxy far, far away...
+            Loading starship details from {relatedData?.name}
           </Typography>
         </Box>
       </Box>
@@ -63,31 +64,35 @@ export default function PlanetDetails() {
   }
 
   const rows = [
-    { value: 'climate'},
-    { value: 'terrain'},
-    { value: 'population', render: (value: string) => dataUtils.formatPopulation(value) },
-    { value: 'diameter', render: (value: string) => dataUtils.formatDiameter(value) },
-    { value: 'gravity'},
-    { value: 'orbital_period', render: (value: string) => dataUtils.formatPeriod(value, 'days') },
-    { value: 'rotation_period', render: (value: string) => dataUtils.formatPeriod(value, 'hours') },
-    { value: 'surface_water', render: (value: string) => value ? `${value}%` : 'N/A'}
+    { value: 'model'},
+    { value: 'manufacturer'},
+    { value: 'cost_in_credits'},
+    { value: 'length'},
+    { value: 'max_atmosphering_speed'},
+    { value: 'crew'},
+    { value: 'passengers'},
+    { value: 'cargo_capacity'},
+    { value: 'consumables'},
+    { value: 'hyperdrive_rating'},
+    { value: 'MGLT'},
+    { value: 'starship_class'},
   ];
 
   return (
     <div className="space-y-6 universe">
       <Header
-        title={item?.name || 'Planet Details'}
-        description={`Explore the ${item?.name} planet in the Star Wars galaxy.`}
+        title={item?.name || 'Starship Details'}
+        description={`Get to know ${item?.name} From ${relatedData?.name}`}
         backButton={true}
-        backButtonLink="/"
+        backButtonLink="/starships"
       />
       <BaseDetailPage
         item={item}
         rows={rows}
         bulletLinks={
           <>
-            <BulletLinkArray data={relatedData?.residents} title="Residents" link={`/person`} />
             <BulletLinkArray data={relatedData?.films} title="Films" link={`/film`} />
+            <BulletLinkArray data={relatedData?.pilots} title="Pilots" link={`/person`} />
           </>
         }
       />
