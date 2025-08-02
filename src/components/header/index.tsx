@@ -21,7 +21,13 @@ export default function Header({ title, description }: HeaderProps) {
           <Public sx={{ fontSize: 32, color: 'white' }} />
         </Box>
         <Typography variant="h5" sx={{ color: 'yellow',
-           maxWidth: '95%', mx: 'auto', fontFamily: 'Orbitron', }}>
+           maxWidth: '95%', mx: 'auto', fontFamily: 'Orbitron',
+           backgroundColor: 'rgba(255,255,255,0.05)', 
+           backdropFilter: 'blur(12px)',
+           padding: '10px',
+           borderRadius: '10px',
+           border: '1px solid rgba(255,255,255,0.1)',
+           }}>
           {description}
         </Typography>
       </Box>
