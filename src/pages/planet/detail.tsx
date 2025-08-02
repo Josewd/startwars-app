@@ -76,8 +76,6 @@ export default function PlanetDetails({ id }: { id: string }) {
       <Header
         title={item?.name || 'Planet Details'}
         description={`Explore the ${item?.name} planet in the Star Wars galaxy.`}
-        backButton={true}
-        backButtonLink="/planets"
       />
       <BaseDetailPage
         item={item}

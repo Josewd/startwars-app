@@ -77,8 +77,6 @@ export default function VehicleDetails({ id }: { id: string }) {
       <Header
         title={item?.name || 'Vehicle Details'}
         description={`Get to know ${item?.name} From ${relatedData?.name}`}
-        backButton={true}
-        backButtonLink="/vehicles"
       />
       <BaseDetailPage
         item={item}

@@ -79,8 +79,6 @@ export default function StarshipDetails({ id }: { id: string }) {
       <Header
         title={item?.name || 'Starship Details'}
         description={`Get to know ${item?.name} From ${relatedData?.name}`}
-        backButton={true}
-        backButtonLink="/starships"
       />
       <BaseDetailPage
         item={item}

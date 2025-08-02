@@ -76,8 +76,6 @@ export default function FilmDetails() {
       <Header
         title={item?.title || 'Film Details'}
         description={item?.opening_crawl || ''}
-        backButton={true}
-        backButtonLink="/people"
       />
       <BaseDetailPage
         item={item}

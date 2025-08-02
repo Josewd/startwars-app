@@ -74,8 +74,6 @@ export default function PersonDetails({ id }: { id: string }) {
       <Header
         title={item?.name || 'Person Details'}
         description={`Get to know ${item?.name} From ${relatedData?.homeworld?.name}`}
-        backButton={true}
-        backButtonLink="/people"
       />
       <BaseDetailPage
         item={item}

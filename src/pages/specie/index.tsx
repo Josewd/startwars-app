@@ -79,8 +79,6 @@ export default function SpecieDetails() {
       <Header
         title={item?.name || 'Specie Details'}
         description={`Explore the ${item?.name} species in the Star Wars galaxy.`}
-        backButton={true}
-        backButtonLink="/species"
       />
       <BaseDetailPage
         item={item}

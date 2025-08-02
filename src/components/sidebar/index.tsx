@@ -37,7 +37,22 @@ const routes = [
     path: '/starships',
     label: 'Starships',
     icon: <RocketLaunch />
-  }
+  },
+  {
+    path: '/vehicles',
+    label: 'Vehicles',
+    icon: <CarRental />
+  },
+  {
+    path: '/films',
+    label: 'Films',
+    icon: <Movie />
+  },
+  {
+    path: '/species',
+    label: 'Species',
+    icon: <Pets />
+  } 
 ];
 
 type SidebarProps = {
@@ -155,104 +170,6 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             );
           })}
         </List>
-
-        <Divider sx={{ my: 2, borderColor: 'rgba(255, 255, 255, 0.2)' }} />
-
-        {/* Seção de Extras */}
-        <Typography 
-          variant="subtitle2" 
-          sx={{ 
-            px: 3, 
-            pb: 1, 
-            color: '#9CA3AF',
-            fontFamily: 'Orbitron',
-            textTransform: 'uppercase',
-            letterSpacing: 1,
-            fontSize: '0.75rem'
-          }}
-        >
-          Recursos
-        </Typography>
-
-        <List sx={{ px: 1 }}>
-          <ListItem disablePadding sx={{ mb: 0.5 }}>
-            <ListItemButton
-              component={Link}
-              to="/films"
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                '&:hover': {
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                }
-              }}
-            >
-              <ListItemIcon sx={{ color: 'white', minWidth: 40 }}>
-                <Movie />
-              </ListItemIcon>
-              <ListItemText 
-                primary="Films"
-                primaryTypographyProps={{
-                  fontFamily: 'Orbitron',
-                  fontSize: '0.9rem',
-                  color: 'white'
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-          
-          <ListItem disablePadding sx={{ mb: 0.5 }}>
-            <ListItemButton
-              component={Link}
-              to="/species"
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                '&:hover': {
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                }
-              }}
-            >
-              <ListItemIcon sx={{ color: 'white', minWidth: 40 }}>
-                <Pets />
-              </ListItemIcon>
-              <ListItemText 
-                primary="Species"
-                primaryTypographyProps={{
-                  fontFamily: 'Orbitron',
-                  fontSize: '0.9rem',
-                  color: 'white'
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-                 
-          <ListItem disablePadding sx={{ mb: 0.5 }}>
-            <ListItemButton
-              component={Link}
-              to="/vehicles"
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                '&:hover': {
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)'
-                }
-              }}
-            >
-              <ListItemIcon sx={{ color: 'white', minWidth: 40 }}>
-                <CarRental />
-              </ListItemIcon>
-              <ListItemText 
-                primary="Vehicles"
-                primaryTypographyProps={{
-                  fontFamily: 'Orbitron',
-                  fontSize: '0.9rem',
-                  color: 'white'
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-        </List>
       </Box>
 
       {/* Footer */}
@@ -271,7 +188,7 @@ export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
             fontSize: '0.7rem'
           }}
         >
-          Que a Força esteja com você
+         May the force be with you
         </Typography>
       </Box>
     </Box>
