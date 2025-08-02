@@ -3,12 +3,13 @@ import { cache } from "react";
 const BASE_URL = 'https://swapi.py4e.com/api';
 
 export type SortDirection = 'asc' | 'desc';
-export type Endpoint = 'people' | 'planets' | 'starships' | 'films';
+export type Endpoint = 'people' | 'planets' | 'starships' | 'films' | 'species' | 'vehicles';
 export type SearchTerm = string | string[];
 
 // Generic fetch function with error handling
 const cachedFetch = cache(fetch);
 async function fetchFromAPI(url: string) {
+  console.log(url);
   try {
     const response = await cachedFetch(url);
     if (!response.ok) {
@@ -29,6 +30,7 @@ export function extractIdFromUrl(url: string) {
 
 // Fetch all pages of a resource
 async function fetchAllPages(endpoint: Endpoint, searchTerm = '') {
+  console.log(`${BASE_URL}/${endpoint}/${searchTerm ? `?search=${encodeURIComponent(searchTerm)}` : ''}`);
   const data = await fetchFromAPI(`${BASE_URL}/${endpoint}/${searchTerm ? `?search=${encodeURIComponent(searchTerm)}` : ''}`);
   
   return data;
@@ -74,7 +76,6 @@ export const planetsAPI = {
 
 // Starships API
 export const starshipsAPI = {
-  // Get all starships with optional search
   async getAll(searchTerm = '') {
     return await fetchAllPages('starships', searchTerm);
   },
@@ -91,6 +92,19 @@ export const starshipsAPI = {
   }
 };
 
+// Species API
+export const speciesAPI = {
+  // Get all species with optional search
+  async getAll(searchTerm = '') {
+    return await fetchAllPages('species', searchTerm);
+  },
+
+  // Get a specific species by ID
+  async getById(id: string) {
+    return await fetchFromAPI(`${BASE_URL}/species/${id}/`);
+  }
+};  
+
 // Films API
 export const filmsAPI = {
   // Get all films
@@ -103,6 +117,20 @@ export const filmsAPI = {
     return await fetchFromAPI(`${BASE_URL}/films/${id}/`);
   }
 };
+
+// Vehicles API
+export const vehiclesAPI = {
+  // Get all vehicles with optional search
+  async getAll(searchTerm = '') {
+    return await fetchAllPages('vehicles', searchTerm);
+  },
+
+  // Get a specific vehicle by ID
+  async getById(id: string) {
+    console.log(`${BASE_URL}/vehicles/${id}/`, 'jose');
+    return await fetchFromAPI(`${BASE_URL}/vehicles/${id}/`);
+  }
+};  
 
 // Generic function to fetch any resource by URL
 export async function fetchByUrl(url: string) {

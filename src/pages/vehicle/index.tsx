@@ -1,12 +1,12 @@
 import React from 'react';
 import { useParams } from "react-router";
-import StarshipDetails from './detail';
-import AllStarships from './all';
+import VehicleDetails from './detail';
+import AllVehicles from './all';
 
 export default function StarshipPage() {
   const { id } = useParams();
   if (id) {
-    return <StarshipDetails id={id} />;
+    return <VehicleDetails id={id} />;
   }
-  return <AllStarships />;
+  return <AllVehicles />;
 }

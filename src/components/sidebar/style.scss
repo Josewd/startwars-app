@@ -1,0 +1,142 @@
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-right: 2px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    padding: 24px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+    &-title {
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      margin-bottom: 8px;
+    }
+
+    &-subtitle {
+      color: yellow;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+
+  &__navigation {
+    flex: 1;
+    padding: 16px 0;
+  }
+
+  &__section-title {
+    padding: 0 24px 8px;
+    color: #9CA3AF;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+  }
+
+  &__menu-item {
+    margin: 0 8px 4px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &--active {
+      background-color: rgba(255, 255, 0, 0.1);
+      border: 1px solid rgba(255, 255, 0, 0.3);
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &__menu-icon {
+    color: white;
+    min-width: 40px;
+
+    &--active {
+      color: yellow;
+    }
+  }
+
+  &__menu-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    color: white;
+
+    &--active {
+      color: yellow;
+      font-weight: bold;
+    }
+  }
+
+  &__divider {
+    margin: 16px 0;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &__footer {
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+
+    &-text {
+      color: #6B7280;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .sidebar {
+    width: 260px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+
+    &--open {
+      transform: translateX(0);
+    }
+  }
+}
+
+// Dark theme adjustments
+body.dark-theme {
+  .sidebar {
+    background-color: rgba(0, 0, 0, 0.9);
+    border-right-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Animation for icons
+.sidebar__menu-item {
+  .MuiListItemIcon-root {
+    transition: transform 0.2s ease;
+  }
+
+  &:hover .MuiListItemIcon-root {
+    transform: scale(1.1);
+  }
+}
+
+// Glow effect for active items
+.sidebar__menu-item--active {
+  box-shadow: 0 0 15px rgba(255, 255, 0, 0.2);
+  
+  .sidebar__menu-icon--active {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 0, 0.5));
+  }
+}

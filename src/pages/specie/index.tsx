@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { usePersonDetails } from "../../hooks";
+import React from 'react';
+import { useSpeciesDetails } from "../../hooks";
 import { 
   CircularProgress, 
   Button, 
@@ -12,24 +12,25 @@ import Header from "../../components/header";
 import BulletLinkArray from "../../components/bulletLink";
 import BaseDetailPage from "../../components/baseDetailPage";
 
-export default function PersonDetails() {
+export default function SpecieDetails() {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  console.log(id);
   const { 
     item,
     relatedData,
     error,
-  } = usePersonDetails(id || '');
+    loading,
+  } = useSpeciesDetails(id || '');
 
-  console.log(relatedData, item);
+  console.log({item});
 
-  if (isLoading) {
+  if (loading) {
     return (
       <Box display="flex" alignItems="center" justifyContent="center" py={8}>
         <Box textAlign="center">
           <CircularProgress sx={{ color: '#FACC15', mb: 2 }} />
           <Typography variant="body1" sx={{ color: '#D1D5DB' }}>
-            Loading person details from {relatedData?.homeworld?.name}
+            Loading species from a galaxy far, far away...
           </Typography>
         </Box>
       </Box>
@@ -42,7 +43,7 @@ export default function PersonDetails() {
         <Box textAlign="center">
           <ErrorIcon sx={{ fontSize: 32, color: '#F87171', mb: 2 }} />
           <Typography variant="body1" sx={{ color: '#D1D5DB', mb: 3 }}>
-            Error loading planet details: {error}
+            Error loading species details: {error}
           </Typography>
           <Button 
             onClick={() => window.location.reload()} 
@@ -64,36 +65,35 @@ export default function PersonDetails() {
   }
 
   const rows = [
-    { value: 'height', render: (value: string) => `${value} cm` },
-    { value: 'mass', render: (value: string) => `${value} kg` },
-    { value: 'hair_color'},
-    { value: 'skin_color'},
-    { value: 'eye_color'},
-    { value: 'birth_year', render: (value: string) => `${value} years` },
-    { value: 'gender'},
+    { value: 'classification'},
+    { value: 'designation'},
+    { value: 'average_height', render: (value: string) => (value && value !== 'n/a') ? `${value} cm` : 'N/A' },
+    { value: 'average_lifespan', render: (value: string) => value ? `${value} years` : 'N/A' },
+    { value: 'language'},
+    { value: 'homeworld', render: (value: string) => value ? `${value}` : 'N/A' },
+    { value: 'eye_colors'},
+    { value: 'hair_colors'},
+    { value: 'skin_colors'},
   ];
 
   return (
     <div className="space-y-6 universe">
       <Header
-        title={item?.name || 'Person Details'}
-        description={`Get to know ${item?.name} From ${relatedData?.homeworld?.name}`}
+        title={item?.name || 'Specie Details'}
+        description={`Explore the ${item?.name} species in the Star Wars galaxy.`}
         backButton={true}
-        backButtonLink="/people"
+        backButtonLink="/species"
       />
       <BaseDetailPage
         item={item}
         rows={rows}
         bulletLinks={
           <>
-            <BulletLinkArray data={[{ title: relatedData?.homeworld?.name || '', url: relatedData?.homeworld?.url || '' }]} title="Homeworld" link={`/planet`} />
+            <BulletLinkArray data={relatedData?.people} title="People" link={`/person`} />
             <BulletLinkArray data={relatedData?.films} title="Films" link={`/film`} />
-            <BulletLinkArray data={relatedData?.species} title="Species" link={`/species`} />
-            <BulletLinkArray data={relatedData?.vehicles} title="Vehicles" link={`/vehicle`} />
-            <BulletLinkArray data={relatedData?.starships} title="Starships" link={`/starship`} />
           </>
         }
-      />  
+      />
     </div>
   );
 }

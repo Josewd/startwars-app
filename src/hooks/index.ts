@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import { peopleAPI, planetsAPI, starshipsAPI, filmsAPI, resolveRelatedResources, extractIdFromUrl, fetchByUrl } from '../service/api';
+import { peopleAPI, planetsAPI, starshipsAPI, filmsAPI, resolveRelatedResources, extractIdFromUrl, fetchByUrl, speciesAPI, vehiclesAPI } from '../service/api';
 import { SortDirection, SearchTerm } from '../service/api';
 import { 
   Planet, 
   PlanetWithRelatedData, 
   Person, 
   Film,
-  Starship
+  Starship,
+  Species,
+  Vehicle,
 } from '../types';
 
 // Generic hook for fetching and managing list data
@@ -118,6 +120,7 @@ function useItemDetails<T = any>(apiService: any, id: string) {
       try {
         setLoading(true);
         setError(null);
+        console.log(apiService, 'jose');
         const result = await apiService.getById(id);
         setItem(result);
 
@@ -222,30 +225,26 @@ export function useStarshipDetails(id: string) {
   return useItemDetails<Starship>(starshipsAPI, id);
 }
 
+export function useSpeciesDetails(id: string) {
+  return useItemDetails<Species>(speciesAPI, id);
+}
+
+export function useSpecies() {
+  return useListData<Species>(speciesAPI);
+}
+
+export function useVehicles() {
+  return useListData<Vehicle>(vehiclesAPI);
+}
+
+export function useVehicleDetails(id: string) {
+  return useItemDetails<Vehicle>(vehiclesAPI, id);
+}
+
+
 // Hook for films data
 export function useFilms() {
-  const [films, setFilms] = useState<Film[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchFilms = async () => {
-      try {
-        setLoading(true);
-        const result = await filmsAPI.getAll();
-        setFilms(result);
-      } catch (err: any) {
-        setError(err.message);
-        console.error('Error fetching films:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFilms();
-  }, []);
-
-  return { films, loading, error };
+  return useListData<Film>(filmsAPI);
 }
 
 // Utility hook for extracting IDs from URLs

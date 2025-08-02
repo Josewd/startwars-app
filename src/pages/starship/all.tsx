@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useTransition } from 'react';
-import { usePlanets } from "../../hooks";
+import { usePeople, usePlanets, useStarships } from "../../hooks";
 import { 
   CircularProgress, 
   Button, 
@@ -15,16 +15,16 @@ import {
   KeyboardArrowDown as KeyboardArrowDownIcon,
   Public as PublicIcon,
 } from '@mui/icons-material';
-import Navigation from "../../components/nav";
-import PlanetCard from "../../components/planetCard";
 import AutoFocusInput from "../../components/autoFocusInput";
 import InfinityScroll from "../../components/infinityScroll";
 import { useParams } from "react-router";
 import Header from "../../components/header";
+import StarshipCard from "../../components/card";
+import BaseAllPage from '../../components/baseAllPage';
 
-export default function PlanetsPage() {
+export default function AllStarships() {
   const { 
-    data: planets, 
+    data: starships, 
     loading, 
     error, 
     searchTerm, 
@@ -35,7 +35,7 @@ export default function PlanetsPage() {
     fetchNextPage,
     nextUrl,
     refetch,
-  } = usePlanets();
+  } = useStarships();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const [isPending, startTransition] = useTransition();
@@ -108,71 +108,21 @@ export default function PlanetsPage() {
     );
   }
 
-  const getSortIcon = (field: string) => {
-    if (sortField !== field) return <UnfoldMoreIcon sx={{ fontSize: 16 }} />;
-    return sortDirection === 'asc' ? <KeyboardArrowUpIcon sx={{ fontSize: 16 }} /> : <KeyboardArrowDownIcon sx={{ fontSize: 16 }} />;
-  };
-
   return (
-    <div className="space-y-6 universe">
-     <Header
-        title="Planets"
-        description="Explore the diverse worlds of the Star Wars galaxy, from desert planets to ice worlds."
-      />
-
-      {/* Search and Controls */}
-      <Card sx={{ 
-        backgroundColor: 'rgba(255,255,255,0.05)', 
-        backdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255,255,255,0.1)',
-        borderRadius: 3,
-        width: '100%',
-        margin: '20px auto'
-      }}>
-        <CardContent sx={{ p: 3 }}>
-          <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} gap={2} alignItems="center" justifyContent="space-between" mb={2}>
-           <AutoFocusInput
-            searchTerm={searchValue as string}
-            handleSearch={handleSearch}
-            placeholder="Search planets..."
-           />
-           <Navigation
-            handleSort={handleSort}
-            sortField={sortField}
-            sortDirection={sortDirection}
-            links={[{ name: 'name', onClick: () => handleSort('name') }, { name: 'population', onClick: () => handleSort('population') }]}
-           /> 
-          </Box>
-          
-          <Typography variant="body2" sx={{ color: '#9CA3AF' }}>
-            Showing {planets.length} planets
-          </Typography>
-        </CardContent>
-      </Card>
-
-      {/* Planets Grid */}
-      <InfinityScroll
-        hasMore={!!nextUrl}
-        onLoadMore={fetchNextPage}
-        loading={loading}
-      >
-        {planets.map((planet) => {
-          return <PlanetCard key={planet.name} {...planet} />;
-        })}
-      </InfinityScroll>
-
-      {/* Empty State */}
-      {planets.length === 0 && searchTerm && (
-        <Box textAlign="center" py={8}>
-          <PublicIcon sx={{ fontSize: 84, color: '#6B7280', mb: 2 }} />
-          <Typography variant="h6" sx={{ fontWeight: 'semibold', color: '#D1D5DB', mb: 1 }}>
-            No planets found
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#9CA3AF' }}>
-            Try adjusting your search term to find planets.
-          </Typography>
-        </Box>
-      )}
-    </div>
+    <BaseAllPage
+      title="Starships"
+      description="Explore the diverse starships of the Star Wars galaxy."
+      searchValue={searchValue}
+      handleSearch={handleSearch}
+      handleSort={handleSort}
+      sortField={sortField}
+      sortDirection={sortDirection}
+      data={starships}
+      nextUrl={nextUrl || ''  }
+      fetchNextPage={fetchNextPage}
+      loading={loading}
+      path="/starship"
+      sortLinks={[{ name: 'name', onClick: () => handleSort('name') }, { name: 'model', onClick: () => handleSort('model') }]}
+    />
   );
 }

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { extractIdFromUrl } from "../../service/api";
 import './style.scss';
-import { getRandomColor } from "../../utils";
-import { Link, useNavigate } from "react-router";
+import { dataUtils, getRandomColor } from "../../utils";
+import { useNavigate } from "react-router";
 import { Planet } from "../../types";
 
 export default function PlanetCard(props: Planet) {
@@ -17,8 +17,11 @@ export default function PlanetCard(props: Planet) {
 
   return (
     <div className="planet-card" onClick={() => navigate(`/planet/${extractIdFromUrl(props.url || '')}`)}>
-      <h1 className="planet-card-title">{props.name}</h1>
-        <p className="planet-card-population">Population: {props.population}</p>
+      <div className="planet" />
+      <div className="planet-card-content">
+        <h1 className="planet-card-title">{props.name}</h1>
+        <p className="planet-card-population">Population: {dataUtils.formatPopulation(props.population)}</p>
+      </div>
     </div>
   );
 }

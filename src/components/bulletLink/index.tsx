@@ -18,7 +18,7 @@ export default function BulletLinkArray({ data, title, link }: {data: { name?: s
           <h2>{title}</h2>
           <div className="bullet-link-array">
             {data.map((item) => (
-              <BulletLink title={item.name || item.title || ''} link={`${link}/${extractIdFromUrl(item.url || '')}`} />
+              <BulletLink key={item.name || item.title || ''} title={item.name || item.title || ''} link={`${link}/${extractIdFromUrl(item.url || '')}`} />
             ))}
           </div>
         </>

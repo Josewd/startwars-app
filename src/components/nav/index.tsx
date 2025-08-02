@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { UnfoldMore as UnfoldMoreIcon, KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 
 type NavigationProps = {
@@ -19,7 +19,7 @@ export default function Navigation({ handleSort, sortField, sortDirection, links
   };
   return (
     <Box display="flex" alignItems="center" gap={1}>
-      <Typography variant="body2" sx={{ color: '#9CA3AF' }}>Sort by:</Typography>
+      <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>Sort by:</span>
       {links.map((link) => (
         <Button
           variant="outlined"
