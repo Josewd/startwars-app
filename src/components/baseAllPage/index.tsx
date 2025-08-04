@@ -7,6 +7,8 @@ import InfinityScroll from '../infinityScroll';
 import { Public as PublicIcon } from '@mui/icons-material';
 import { SortDirection } from "../../types";
 import ItemCard from '../card';
+import Loading from "../loading";
+import PeopleCard from '../card/peopleCard';
 
 type BaseAllPageProps = {
   title: string;
@@ -76,15 +78,36 @@ export default function BaseAllPage({ title,
       </Card>
 
       {/* Planets Grid */}
-      <InfinityScroll
-        hasMore={!!nextUrl}
-        onLoadMore={fetchNextPage}
-        loading={loading}
-      >
-        { data && data.map((item: any) => {
-          return <ItemCard key={item.name} name={item.name} info={item?.homeworld || item?.model ||  ''} url={item.url || ''} path={path} />;
-        })}
-      </InfinityScroll>
+      {
+        loading ? (
+          <Loading message={`Loading ${title} from a galaxy far, far away...`} />
+        ) : (
+          <InfinityScroll
+            hasMore={!!nextUrl}
+            onLoadMore={fetchNextPage}
+            loading={loading}
+          >
+            { data && data.map((item: any) => {
+              if (path === '/person') {
+                return <PeopleCard
+                  key={item.name} 
+                  name={item.name} 
+                  homeworld={item?.homeworld || ''}
+                  url={item.url || ''} 
+                  path={path} 
+                />;
+              }
+              return <ItemCard
+                key={item.name} 
+                name={item.name} 
+                info={item?.homeworld || item?.model ||  ''} 
+                url={item.url || ''} 
+                path={path} 
+              />;
+            })}
+          </InfinityScroll>   
+        )
+      }
 
       {/* Empty State */}
       {data.length === 0 && searchValue && (

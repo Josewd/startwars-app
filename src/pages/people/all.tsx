@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState, useTransition } from 'react';
 import { usePeople } from "../../hooks";
 import { 
-  CircularProgress, 
   Button, 
   Typography,
   Box,
@@ -17,7 +16,6 @@ export default function PeoplePage() {
     data: people, 
     loading, 
     error, 
-    searchTerm, 
     setSearchTerm, 
     sortField, 
     sortDirection, 
@@ -58,18 +56,6 @@ export default function PeoplePage() {
     }
   }, [isPending]);
 
-  if (isLoading) {
-    return (
-      <Box display="flex" alignItems="center" justifyContent="center" py={8}>
-        <Box textAlign="center">
-          <CircularProgress sx={{ color: '#FACC15', mb: 2 }} />
-          <Typography variant="body1" sx={{ color: '#D1D5DB' }}>
-            Loading planets from a galaxy far, far away...
-          </Typography>
-        </Box>
-      </Box>
-    );
-  }
 
   if (error) {
     return (
@@ -109,7 +95,7 @@ export default function PeoplePage() {
       data={people}
       nextUrl={nextUrl || ''}
       fetchNextPage={fetchNextPage}
-      loading={loading}
+      loading={isLoading}
       path="/person"
       sortLinks={[{ name: 'name', onClick: () => handleSort('name') }, { name: 'homeworld', onClick: () => handleSort('homeworld') }]}
     />

@@ -1,25 +1,14 @@
 import React, { useEffect, useRef, useState, useTransition } from 'react';
-import { usePeople, usePlanets, useStarships } from "../../hooks";
-import { 
-  CircularProgress, 
+import { useStarships } from "../../hooks";
+import {  
   Button, 
   Typography,
   Box,
-  Card,
-  CardContent
 } from '@mui/material';
 import { 
   Error as ErrorIcon,
-  UnfoldMore as UnfoldMoreIcon,
-  KeyboardArrowUp as KeyboardArrowUpIcon,
-  KeyboardArrowDown as KeyboardArrowDownIcon,
-  Public as PublicIcon,
 } from '@mui/icons-material';
-import AutoFocusInput from "../../components/autoFocusInput";
-import InfinityScroll from "../../components/infinityScroll";
 import { useParams } from "react-router";
-import Header from "../../components/header";
-import StarshipCard from "../../components/card";
 import BaseAllPage from '../../components/baseAllPage';
 
 export default function AllStarships() {
@@ -27,7 +16,6 @@ export default function AllStarships() {
     data: starships, 
     loading, 
     error, 
-    searchTerm, 
     setSearchTerm, 
     sortField, 
     sortDirection, 
@@ -67,19 +55,6 @@ export default function AllStarships() {
       setIsLoading(false);
     }
   }, [isPending]);
-
-  if (isLoading) {
-    return (
-      <Box display="flex" alignItems="center" justifyContent="center" py={8}>
-        <Box textAlign="center">
-          <CircularProgress sx={{ color: '#FACC15', mb: 2 }} />
-          <Typography variant="body1" sx={{ color: '#D1D5DB' }}>
-            Loading planets from a galaxy far, far away...
-          </Typography>
-        </Box>
-      </Box>
-    );
-  }
 
   if (error) {
     return (

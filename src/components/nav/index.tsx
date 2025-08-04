@@ -21,7 +21,8 @@ export default function Navigation({ handleSort, sortField, sortDirection, links
     <Box display="flex" alignItems="center" gap={1}>
       <span style={{ color: '#9CA3AF', fontSize: '0.8rem' }}>Sort by:</span>
       {links.map((link) => (
-        <Button
+        <Button 
+          key={link.name}
           variant="outlined"
           size="small"
           onClick={link.onClick}

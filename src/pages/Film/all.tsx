@@ -1,26 +1,18 @@
-import React, { useEffect, useRef, useState, useTransition } from 'react';
+import React, { useEffect } from 'react';
 import { useFilms } from "../../hooks";
-import { 
-  CircularProgress, 
+import {  
   Button, 
   Typography,
   Box,
-  Card,
-  CardContent
 } from '@mui/material';
 import { 
-  Error as ErrorIcon,
-  UnfoldMore as UnfoldMoreIcon,
-  KeyboardArrowUp as KeyboardArrowUpIcon,
-  KeyboardArrowDown as KeyboardArrowDownIcon,
+  Error as ErrorIcon, 
   Public as PublicIcon,
 } from '@mui/icons-material';
-import AutoFocusInput from "../../components/autoFocusInput";
-import InfinityScroll from "../../components/infinityScroll";
 import Header from "../../components/header";
-import FilmCard from "../../components/card";
+import FilmCard from "../../components/card"; 
 import { Film } from '../../types';
-import Table from "../../components/table";
+import BaseAllPage from '../../components/baseAllPage';
 
 export default function AllFilms() {
   const { 
@@ -29,37 +21,6 @@ export default function AllFilms() {
     error, 
   } = useFilms();
   console.log(films);
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [isPending, startTransition] = useTransition();
-  const [searchValue, setSearchValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  });
-
-  useEffect(() => {
-    if (!isPending) {
-      setIsLoading(false);
-    }
-  }, [isPending]);
-
-  if (isLoading) {
-    return (
-      <Box display="flex" alignItems="center" justifyContent="center" py={8}>
-        <Box textAlign="center">
-          <CircularProgress sx={{ color: '#FACC15', mb: 2 }} />
-          <Typography variant="body1" sx={{ color: '#D1D5DB' }}>
-            Loading planets from a galaxy far, far away...
-          </Typography>
-        </Box>
-      </Box>
-    );
-  }
 
   if (error) {
     return (
@@ -94,8 +55,6 @@ export default function AllFilms() {
         title="Planets"
         description="Explore the diverse worlds of the Star Wars galaxy, from desert planets to ice worlds."
       />
-
-      {/* Planets Grid */}
  
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
         { films && films.map((film: Film) => {

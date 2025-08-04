@@ -17,6 +17,7 @@ import PlanetCard from "../../components/planetCard";
 import AutoFocusInput from "../../components/autoFocusInput";
 import InfinityScroll from "../../components/infinityScroll";
 import Header from "../../components/header";
+import Loading from "../../components/loading";
 
 export default function AllPlanets() {
   const { 
@@ -61,19 +62,6 @@ export default function AllPlanets() {
       setIsLoading(false);
     }
   }, [isPending]);
-
-  if (isLoading) {
-    return (
-      <Box display="flex" alignItems="center" justifyContent="center" py={8}>
-        <Box textAlign="center">
-          <CircularProgress sx={{ color: '#FACC15', mb: 2 }} />
-          <Typography variant="body1" sx={{ color: '#D1D5DB' }}>
-            Loading planets from a galaxy far, far away...
-          </Typography>
-        </Box>
-      </Box>
-    );
-  }
 
   if (error) {
     return (
@@ -138,15 +126,20 @@ export default function AllPlanets() {
         </CardContent>
       </Card>
 
-      <InfinityScroll
-        hasMore={!!nextUrl}
-        onLoadMore={fetchNextPage}
-        loading={loading}
-      >
-        {planets.map((planet) => {
-          return <PlanetCard key={planet.name} {...planet} />;
-        })}
-      </InfinityScroll>
+      {
+        loading ? (
+        <Loading message="Loading planets from a galaxy far, far away..." />
+      ) : (
+        <InfinityScroll
+          hasMore={!!nextUrl}
+          onLoadMore={fetchNextPage}
+          loading={isLoading}
+        >
+          {planets.map((planet) => {
+            return <PlanetCard key={planet.name} {...planet} />;
+          })}
+        </InfinityScroll>
+      )}
       
       {planets.length === 0 && searchTerm && (
         <Box textAlign="center" py={8}>
