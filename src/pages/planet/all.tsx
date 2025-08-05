@@ -1,30 +1,19 @@
 import React, { useEffect, useRef, useState, useTransition } from 'react';
 import { usePlanets } from "../../hooks";
 import { 
-  CircularProgress, 
   Button, 
   Typography,
   Box,
-  Card,
-  CardContent
 } from '@mui/material';
 import { 
   Error as ErrorIcon,
-  Public as PublicIcon,
 } from '@mui/icons-material';
-import Navigation from "../../components/nav";
-import PlanetCard from "../../components/planetCard";
-import AutoFocusInput from "../../components/autoFocusInput";
-import InfinityScroll from "../../components/infinityScroll";
-import Header from "../../components/header";
-import Loading from "../../components/loading";
+import ListItems from '../../components/listItems';
 
 export default function AllPlanets() {
   const { 
-    data: planets, 
-    loading, 
+    data: planets,
     error, 
-    searchTerm, 
     setSearchTerm, 
     sortField, 
     sortDirection, 
@@ -37,7 +26,6 @@ export default function AllPlanets() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isPending, startTransition] = useTransition();
   const [searchValue, setSearchValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
@@ -46,7 +34,6 @@ export default function AllPlanets() {
       }
       setSearchValue(value);
       startTransition(() => {
-        setIsLoading(true);
         setSearchTerm(value);
       });
   };
@@ -59,9 +46,10 @@ export default function AllPlanets() {
 
   useEffect(() => {
     if (!isPending) {
-      setIsLoading(false);
+      setSearchTerm(searchValue);
     }
-  }, [isPending]);
+  }, [isPending, searchValue, setSearchTerm]);
+
 
   if (error) {
     return (
@@ -91,67 +79,20 @@ export default function AllPlanets() {
   }
 
   return (
-    <div className="space-y-6 universe">
-     <Header
-        title="Planets"
-        description="Explore the diverse worlds of the Star Wars galaxy, from desert planets to ice worlds."
-      />
-
-      {/* Search and Controls */}
-      <Card sx={{ 
-        backgroundColor: 'rgba(255,255,255,0.05)', 
-        backdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255,255,255,0.1)',
-        width: '100%',
-        margin: '20px auto'
-      }}>
-        <CardContent sx={{ p: 3 }}>
-          <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} gap={2} alignItems="center" justifyContent="space-between" mb={2}>
-           <AutoFocusInput
-            searchTerm={searchValue as string}
-            handleSearch={handleSearch}
-            placeholder="Search planets..."
-           />
-           <Navigation
-            handleSort={handleSort}
-            sortField={sortField}
-            sortDirection={sortDirection}
-            links={[{ name: 'name', onClick: () => handleSort('name') }, { name: 'population', onClick: () => handleSort('population') }]}
-           /> 
-          </Box>
-          
-          <Typography variant="body2" sx={{ color: '#9CA3AF' }}>
-            Showing {planets.length} planets
-          </Typography>
-        </CardContent>
-      </Card>
-
-      {
-        loading ? (
-        <Loading message="Loading planets from a galaxy far, far away..." />
-      ) : (
-        <InfinityScroll
-          hasMore={!!nextUrl}
-          onLoadMore={fetchNextPage}
-          loading={isLoading}
-        >
-          {planets.map((planet) => {
-            return <PlanetCard key={planet.name} {...planet} />;
-          })}
-        </InfinityScroll>
-      )}
-      
-      {planets.length === 0 && searchTerm && (
-        <Box textAlign="center" py={8}>
-          <PublicIcon sx={{ fontSize: 84, color: '#6B7280', mb: 2 }} />
-          <Typography variant="h6" sx={{ fontWeight: 'semibold', color: '#D1D5DB', mb: 1 }}>
-            No planets found
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#9CA3AF' }}>
-            Try adjusting your search term to find planets.
-          </Typography>
-        </Box>
-      )}
-    </div>
+    <ListItems
+      title="Planets"
+      description="Explore the diverse worlds of the Star Wars galaxy, from desert planets to ice worlds."
+      searchValue={searchValue}
+      handleSearch={handleSearch}
+      handleSort={handleSort}
+      sortField={sortField}
+      sortDirection={sortDirection}
+      data={planets}
+      nextUrl={nextUrl || ''}
+      fetchNextPage={fetchNextPage}
+      loading={false}
+      path="/planet"
+      sortLinks={[{ name: 'name', onClick: () => handleSort('name') }, { name: 'population', onClick: () => handleSort('population') }]}
+    />
   );
 }

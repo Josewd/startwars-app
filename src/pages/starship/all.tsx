@@ -9,7 +9,7 @@ import {
   Error as ErrorIcon,
 } from '@mui/icons-material';
 import { useParams } from "react-router";
-import BaseAllPage from '../../components/baseAllPage';
+import ListItems from '../../components/listItems';
 
 export default function AllStarships() {
   const { 
@@ -84,7 +84,7 @@ export default function AllStarships() {
   }
 
   return (
-    <BaseAllPage
+    <ListItems
       title="Starships"
       description="Explore the diverse starships of the Star Wars galaxy."
       searchValue={searchValue}

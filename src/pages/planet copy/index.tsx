@@ -7,12 +7,14 @@ import {
   Box,
 } from '@mui/material';
 import { Error as ErrorIcon } from '@mui/icons-material';
+import { useParams } from "react-router";
 import Header from "../../components/header";
 import { dataUtils } from "../../utils";
 import BulletLinkArray from "../../components/bulletLink";
-import BaseDetailPage from "../../components/ItemDetails";
+import ItemDetails from "../../components/ItemDetails";
 
-export default function PlanetDetails({ id }: { id: string }) {
+export default function PlanetDetails() {
+  const { id } = useParams();
   const { 
     item,
     relatedData,
@@ -61,14 +63,14 @@ export default function PlanetDetails({ id }: { id: string }) {
   }
 
   const rows = [
-    { key: 'climate'},
-    { key: 'terrain'},
-    { key: 'population', render: (value: string) => dataUtils.formatPopulation(value) },
-    { key: 'diameter', render: (value: string) => dataUtils.formatDiameter(value) },
-    { key: 'gravity'},
-    { key: 'orbital_period', render: (value: string) => dataUtils.formatPeriod(value, 'days') },
-    { key: 'rotation_period', render: (value: string) => dataUtils.formatPeriod(value, 'hours') },
-    { key: 'surface_water', render: (value: string) => value ? `${value}%` : 'N/A'}
+    { value: 'climate'},
+    { value: 'terrain'},
+    { value: 'population', render: (value: string) => dataUtils.formatPopulation(value) },
+    { value: 'diameter', render: (value: string) => dataUtils.formatDiameter(value) },
+    { value: 'gravity'},
+    { value: 'orbital_period', render: (value: string) => dataUtils.formatPeriod(value, 'days') },
+    { value: 'rotation_period', render: (value: string) => dataUtils.formatPeriod(value, 'hours') },
+    { value: 'surface_water', render: (value: string) => value ? `${value}%` : 'N/A'}
   ];
 
   return (
@@ -77,7 +79,7 @@ export default function PlanetDetails({ id }: { id: string }) {
         title={item?.name || 'Planet Details'}
         description={`Explore the ${item?.name} planet in the Star Wars galaxy.`}
       />
-      <BaseDetailPage
+      <ItemDetails
         item={item}
         rows={rows}
         bulletLinks={

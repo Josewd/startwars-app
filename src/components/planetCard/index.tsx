@@ -16,7 +16,7 @@ export default function PlanetCard(props: Planet) {
   const navigate = useNavigate();
 
   return (
-    <div className="planet-card" onClick={() => navigate(`/planet/${extractIdFromUrl(props.url || '')}`)}>
+    <div  className="planet-card" onClick={() => navigate(`/planet/${extractIdFromUrl(props.url || '')}`)}>
       <div className="planet" />
       <div className="planet-card-content">
         <h1 className="planet-card-title">{props.name}</h1>

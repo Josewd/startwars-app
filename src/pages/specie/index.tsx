@@ -10,7 +10,7 @@ import { Error as ErrorIcon } from '@mui/icons-material';
 import { useParams } from "react-router";
 import Header from "../../components/header";
 import BulletLinkArray from "../../components/bulletLink";
-import BaseDetailPage from "../../components/baseDetailPage";
+import BaseDetailPage from "../../components/ItemDetails";
 
 export default function SpecieDetails() {
   const { id } = useParams();

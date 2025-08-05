@@ -27,7 +27,7 @@ export default function AutoFocusInput({
         placeholder={placeholder}
         value={searchTerm}
         ref={inputRef}
-          onChange={handleSearch}
+        onChange={handleSearch}
       />
     </div>
   );

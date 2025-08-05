@@ -9,7 +9,7 @@ import {
 import { Error as ErrorIcon } from '@mui/icons-material';
 import Header from "../../components/header";
 import BulletLinkArray from "../../components/bulletLink";
-import BaseDetailPage from '../../components/baseDetailPage';
+import BaseDetailPage from '../../components/ItemDetails';
 
 export default function VehicleDetails({ id }: { id: string }) {
   const { 

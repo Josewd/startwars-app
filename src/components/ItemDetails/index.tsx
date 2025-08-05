@@ -8,7 +8,7 @@ type BaseDetailPageProps = {
   bulletLinks: any;
 }
 
-export default function BaseDetailPage({ item, rows, bulletLinks }: BaseDetailPageProps) {
+export default function ItemDetails({ item, rows, bulletLinks }: BaseDetailPageProps) {
   return (
     <div className="details-container">
     <div className="details-content">

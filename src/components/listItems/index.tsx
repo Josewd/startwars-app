@@ -9,6 +9,7 @@ import { SortDirection } from "../../types";
 import ItemCard from '../card';
 import Loading from "../loading";
 import PeopleCard from '../card/peopleCard';
+import PlanetCard from '../planetCard';
 
 type BaseAllPageProps = {
   title: string;
@@ -26,7 +27,7 @@ type BaseAllPageProps = {
   sortLinks: { name: string; onClick: () => void }[];
 }
 
-export default function BaseAllPage({ title,
+export default function ListItems({ title,
   description,
   searchValue,
   handleSearch,
@@ -88,6 +89,12 @@ export default function BaseAllPage({ title,
             loading={loading}
           >
             { data && data.map((item: any) => {
+              if (path === '/planet') {
+                return <PlanetCard
+                  {...item}
+                  key={item.name}
+                />;
+              }
               if (path === '/person') {
                 return <PeopleCard
                   key={item.name} 

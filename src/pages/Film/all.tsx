@@ -12,7 +12,7 @@ import {
 import Header from "../../components/header";
 import FilmCard from "../../components/card"; 
 import { Film } from '../../types';
-import BaseAllPage from '../../components/baseAllPage';
+import ListItems from '../../components/listItems';
 
 export default function AllFilms() {
   const { 
